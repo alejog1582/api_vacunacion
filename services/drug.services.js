@@ -1,3 +1,4 @@
+const boom = require('@hapi/boom');
 const {models} = require('./../libs/sequelize');
 
 class DrugService {
@@ -16,7 +17,7 @@ class DrugService {
   async findOne(id) {
     const drug = await models.Drug.findByPk(id);
     if (!drug) {
-      return 'medicamento no encontrado';
+      throw boom.notFound("medicamento no encontrado");
     }
     return drug;
   }
@@ -27,20 +28,15 @@ class DrugService {
       await drug.update(changes);
       return "medicamento Actualizado con Exito";
     }else{
-      return "medicamento no encontrado"
+      throw boom.notFound("medicamento no encontrado");
     }
   }
 
   async delete(id) {
     const drug = await this.findOne(id);
-    if (drug.id) {
-      await drug.destroy();
-      return true;
-    }else{
-      return false;
-    }
+    await drug.destroy();
+    return "Meicamento Eliminado";
   }
-
 }
 
 module.exports = DrugService;

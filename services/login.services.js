@@ -1,4 +1,4 @@
-//const boom = require('@hapi/boom');
+const boom = require('@hapi/boom');
 
 //const pool = require('./../libs/postgresPool');
 const {models} = require('./../libs/sequelize');
@@ -22,12 +22,10 @@ class LoginService {
         const rta = "Usuario logueado con exito";
         return rta
       }else{
-        const rta = "Las credenciales no son correctas";
-        return rta
+        throw boom.unauthorized("Credenciales Incorrectas");
       }
     }else{
-      const rta = "Usuario no encontrado";
-      return rta
+      throw boom.notFound("Usuario no encontrado");
     }
   }
 }

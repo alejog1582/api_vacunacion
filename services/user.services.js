@@ -1,3 +1,4 @@
+const boom = require('@hapi/boom');
 const {models} = require('./../libs/sequelize');
 
 class UserService {
@@ -11,7 +12,7 @@ class UserService {
   async findOne(id) {
     const user = await models.User.findByPk(id);
     if (!user) {
-      return 'usuario no encontrado';
+      throw boom.notFound("Usuario no encontrado") ;
     }
     return user;
   }
@@ -22,20 +23,15 @@ class UserService {
       await user.update(changes);
       return "Usuario Actualizado con Exito";
     }else{
-      return "Usuario no encontrado"
+      throw boom.notFound("Usuario no encontrado") ;
     }
   }
 
   async delete(id) {
     const user = await this.findOne(id);
-    if (user.id) {
-      await user.destroy();
-      return true;
-    }else{
-      return false;
-    }
+    await user.destroy();
+    return "Usuario Eliminado";
   }
-
 }
 
 module.exports = UserService;
