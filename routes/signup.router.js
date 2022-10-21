@@ -1,13 +1,15 @@
 const express = require('express');
-
+const SignupService = require('./../services/signup.services');
 
 const router = express.Router();
+const service = new SignupService();
 
 router.post("/", async (req, res) =>{
   const body = req.body;
-  res.json({
-    message: "Ruta Creacion usuario",
-    data: body
+  const newUser = await service.create(body);
+  res.status(201).json({
+    message: "Usuario Creado con Exito",
+    data: newUser
   });
 });
 
