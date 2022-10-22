@@ -37,8 +37,11 @@ const DrugSchema={
   }}
 
 class Drug extends Model{
-  static associate(){
-    //associate
+  static associate(models){
+    this.hasMany(models.Vaccination,{
+      as: 'vaccinations',
+      foreignKey: 'drugId'
+    })
   }
   static config(sequelize){
     return{

@@ -13,9 +13,16 @@ const VaccinationSchema={
     allowNull:false,
     type:DataTypes.STRING,
   },
-  drug_id:{
+  drugId:{
+    field: 'drug_id',
     allowNull:false,
     type:DataTypes.INTEGER,
+    references:{
+      model: 'drugs',
+      key: 'id'
+    },
+    onUpdate: 'CASCADE',
+    onDelete:'SET NULL'
   },
   dose:{
     allowNull:false,
@@ -33,8 +40,8 @@ const VaccinationSchema={
   }}
 
 class Vaccination extends Model{
-  static associate(){
-    //associate
+  static associate(models){
+    this.belongsTo(models.Drug, {as: 'drug'});
   }
   static config(sequelize){
     return{

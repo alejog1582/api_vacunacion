@@ -12,7 +12,10 @@ router.post("/",
     try {
       const body = req.body;
       const newVaccination = await service.create(body);
-        res.json(newVaccination);
+      res.status(201).json({
+        message: "Vacunacion Creado con Exito",
+        data: newVaccination
+      });
     } catch (error) {
       next(error);
     }

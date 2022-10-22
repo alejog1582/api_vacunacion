@@ -5,7 +5,7 @@ class VaccinationService {
   constructor() {}
 
   async create(data) {
-    const id = data.drug_id;
+    const id = data.drugId;
     const drug = await models.Drug.findOne({
       where: {
         id: id,
@@ -20,7 +20,9 @@ class VaccinationService {
   }
 
   async find() {
-    const rta = await models.Vaccination.findAll();
+    const rta = await models.Vaccination.findAll({
+      include: ['drug']
+    });
     return rta;
   }
 
@@ -34,8 +36,8 @@ class VaccinationService {
 
   async update(id, changes) {
     const vaccination = await this.findOne(id);
-    if (changes.drug_id) {
-      const id_drug = changes.drug_id
+    if (changes.drugId) {
+      const id_drug = changes.drugId
       const drug = await models.Drug.findOne({
         where: {
           id: id_drug,

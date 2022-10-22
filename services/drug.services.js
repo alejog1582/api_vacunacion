@@ -15,7 +15,9 @@ class DrugService {
   }
 
   async findOne(id) {
-    const drug = await models.Drug.findByPk(id);
+    const drug = await models.Drug.findByPk(id,{
+      include: ['vaccinations']
+    });
     if (!drug) {
       throw boom.notFound("medicamento no encontrado");
     }
