@@ -71,6 +71,11 @@ npm run migrations:run
 
 - Enviar el token entregado en el login, en las peticiones para poder acceder.
 
+## URL Despliegue Heroku
+
+- https://calm-coast-99394.herokuapp.com/
+- Versión API: /api/v1
+
 ## Autor
 
 Jose Alejandro Gonzalez Rondon alejog1582@gmail.com. 
