@@ -6,6 +6,9 @@ class UserService {
 
   async find() {
     const rta = await models.User.findAll();
+    rta.forEach(e => {
+      delete e.dataValues.password;
+    });
     return rta;
   }
 
@@ -14,6 +17,7 @@ class UserService {
     if (!user) {
       throw boom.notFound("Usuario no encontrado") ;
     }
+    delete user.dataValues.password;
     return user;
   }
 

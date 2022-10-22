@@ -8,6 +8,8 @@ const port = 3000;
 
 app.use(express.json());
 
+require('./utils/auth')
+
 routerApi(app);
 
 app.use(logErrors);

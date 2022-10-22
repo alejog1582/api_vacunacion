@@ -27,7 +27,9 @@ class VaccinationService {
   }
 
   async findOne(id) {
-    const vaccination = await models.Vaccination.findByPk(id);
+    const vaccination = await models.Vaccination.findByPk(id , {
+      include: ['drug']
+    });
     if (!vaccination) {
       throw boom.notFound("Vacunacion no encontrada");
     }

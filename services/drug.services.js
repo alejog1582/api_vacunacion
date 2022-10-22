@@ -37,7 +37,7 @@ class DrugService {
   async delete(id) {
     const drug = await this.findOne(id);
     await drug.destroy();
-    return "Meicamento Eliminado";
+    return "Medicamento Eliminado";
   }
 }
 

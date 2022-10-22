@@ -2,11 +2,13 @@ const express = require('express');
 const DrugService = require('./../services/drug.services');
 const validatorHandler = require('./../middlewares/validatorHandler');
 const { createDrugSchema, updateDrugSchema, getDrugSchema, deleteDrugSchema } = require('./../schemas/drug.schema');
+const auth = require('../utils/auth');
 
 const router = express.Router();
 const service = new DrugService();
 
 router.post("/",
+  auth.authenticate('jwt', {session: false}),
   validatorHandler(createDrugSchema, 'body'),
   async (req, res, next) =>{
     try {
@@ -23,6 +25,7 @@ router.post("/",
 });
 
 router.get('/',
+  auth.authenticate('jwt', {session: false}),
   async (req, res, next) => {
     try {
       const drugs = await service.find();
@@ -33,6 +36,7 @@ router.get('/',
 });
 
 router.get('/:id',
+  auth.authenticate('jwt', {session: false}),
   validatorHandler(getDrugSchema, 'params'),
   async (req, res, next) => {
     try {
@@ -46,6 +50,7 @@ router.get('/:id',
 );
 
 router.put('/:id',
+  auth.authenticate('jwt', {session: false}),
   validatorHandler(getDrugSchema, 'params'),
   validatorHandler(updateDrugSchema, 'body'),
   async (req, res, next) => {
@@ -61,6 +66,7 @@ router.put('/:id',
 );
 
 router.delete('/:id',
+  auth.authenticate('jwt', {session: false}),
   validatorHandler(deleteDrugSchema, 'params'),
   async (req, res, next) => {
     try {

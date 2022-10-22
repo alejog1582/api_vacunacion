@@ -2,17 +2,20 @@ const express = require('express');
 const UserService = require('./../services/user.services');
 const validatorHandler = require('./../middlewares/validatorHandler');
 const { getUserSchema, updateUserSchema, deleteUserSchema } = require('./../schemas/user.schema');
-
+const auth = require('../utils/auth');
 
 const router = express.Router();
 const service = new UserService();
 
-router.get('/', async (req, res) => {
+router.get('/',
+  auth.authenticate('jwt', {session: false}),
+  async (req, res) => {
     const users = await service.find();
     res.json(users);
 });
 
 router.get('/:id',
+  auth.authenticate('jwt', {session: false}),
   validatorHandler(getUserSchema, 'params'),
   async (req, res, next) => {
     try {
@@ -26,6 +29,7 @@ router.get('/:id',
 );
 
 router.put('/:id',
+  auth.authenticate('jwt', {session: false}),
   validatorHandler(getUserSchema, 'params'),
   validatorHandler(updateUserSchema, 'body'),
   async (req, res, next) => {
@@ -41,6 +45,7 @@ router.put('/:id',
 );
 
 router.delete('/:id',
+  auth.authenticate('jwt', {session: false}),
   validatorHandler(deleteUserSchema, 'params'),
   async (req, res, next) => {
     try {

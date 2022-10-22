@@ -2,11 +2,13 @@ const express = require('express');
 const VaccinationService = require('./../services/vaccination.services');
 const validatorHandler = require('./../middlewares/validatorHandler');
 const { createVaccinationSchema, updateVaccinationSchema, getVaccinationSchema, deleteVaccinationSchema } = require('./../schemas/vaccination.schema');
+const auth = require('../utils/auth');
 
 const router = express.Router();
 const service = new VaccinationService();
 
 router.post("/",
+  auth.authenticate('jwt', {session: false}),
   validatorHandler(createVaccinationSchema, 'body'),
   async (req, res, next) =>{
     try {
@@ -22,12 +24,16 @@ router.post("/",
   }
 );
 
-router.get('/', async (req, res) => {
-  const vaccination = await service.find();
-  res.json(vaccination);
-});
+router.get('/',
+  auth.authenticate('jwt', {session: false}),
+  async (req, res) => {
+    const vaccination = await service.find();
+    res.json(vaccination);
+  }
+);
 
 router.get('/:id',
+  auth.authenticate('jwt', {session: false}),
   validatorHandler(getVaccinationSchema, 'params'),
   async (req, res, next) => {
     try {
@@ -41,6 +47,7 @@ router.get('/:id',
 );
 
 router.put('/:id',
+  auth.authenticate('jwt', {session: false}),
   validatorHandler(getVaccinationSchema, 'params'),
   validatorHandler(updateVaccinationSchema, 'body'),
   async (req, res, next) => {
@@ -56,6 +63,7 @@ router.put('/:id',
 );
 
 router.delete('/:id',
+  auth.authenticate('jwt', {session: false}),
   validatorHandler(deleteVaccinationSchema, 'params'),
   async (req, res, next) => {
     try {
