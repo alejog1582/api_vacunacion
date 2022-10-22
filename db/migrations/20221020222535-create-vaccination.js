@@ -9,6 +9,6 @@ module.exports = {
   },
 
   async down (queryInterface) {
-    await queryInterface.drop(VACCINATION_TABLE);
+    await queryInterface.dropTable(VACCINATION_TABLE);
   }
 };
